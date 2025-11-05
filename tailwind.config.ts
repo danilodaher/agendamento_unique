@@ -16,6 +16,18 @@ export default {
         foreground: "hsl(var(--foreground) / <alpha-value>)",
         border: "hsl(var(--border) / <alpha-value>)",
         input: "hsl(var(--input) / <alpha-value>)",
+        success: {
+          DEFAULT: "142 71% 45%",
+          foreground: "0 0% 100%",
+        },
+        available: {
+          DEFAULT: "142 71% 45%",
+          foreground: "0 0% 100%",
+        },
+        occupied: {
+          DEFAULT: "0 84% 60%",
+          foreground: "0 0% 100%",
+        },
         card: {
           DEFAULT: "hsl(var(--card) / <alpha-value>)",
           foreground: "hsl(var(--card-foreground) / <alpha-value>)",
