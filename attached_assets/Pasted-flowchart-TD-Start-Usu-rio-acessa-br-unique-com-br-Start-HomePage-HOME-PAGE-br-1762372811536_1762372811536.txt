@@ -1,0 +1,137 @@
+flowchart TD
+    Start([👤 Usuário acessa<br/>unique.com.br])
+    Start --> HomePage[🏠 HOME PAGE<br/>Hero + Menu + CTA]
+    
+    HomePage --> Action1{Ação}
+    Action1 -->|Clica AGENDAR| BookingPage[📅 PÁGINA AGENDAMENTO]
+    Action1 -->|Menu Sobre| About[ℹ️ Sobre]
+    Action1 -->|Menu Contato| Contact[📞 Contato]
+    
+    BookingPage --> Step1[📍 STEP 1: Tipo e Data]
+    Step1 --> ShowCards[🃏 3 Cards: Quadra/Evento/Festa]
+    ShowCards --> SelectType[👆 Usuário seleciona tipo]
+    SelectType --> CardActive[✅ Card destacado em roxo]
+    
+    CardActive --> DatePicker[📅 Date Picker aparece]
+    DatePicker --> SelectDate[👆 Seleciona data]
+    SelectDate --> ValidDate{Data válida?}
+    
+    ValidDate -->|Não| ErrorDate[❌ Toast: Data inválida]
+    ErrorDate --> DatePicker
+    ValidDate -->|Sim| NextBtn1[🟢 Botão PRÓXIMO ativo]
+    
+    NextBtn1 --> Step2[📍 STEP 2: Horários]
+    Step2 --> Loading[⏳ Loading horários...]
+    Loading --> APICall[🔌 GET /api/availability]
+    APICall --> ShowGrid[🕐 Grid de horários]
+    
+    ShowGrid --> SlotType{Status}
+    SlotType -->|Disponível| Green[🟢 Card Verde<br/>Clicável]
+    SlotType -->|Ocupado| Red[🔴 Card Vermelho<br/>Bloqueado]
+    
+    Green --> SelectSlot[👆 Seleciona horário]
+    SelectSlot --> ModeCheck{Modo}
+    ModeCheck -->|Quadra| Multi[✅ Múltiplos permitidos]
+    ModeCheck -->|Evento| Single[✅ Apenas 1]
+    
+    Multi --> Summary[📊 Resumo lateral<br/>Total calculado]
+    Single --> Summary
+    Summary --> NextBtn2[🟢 Botão PRÓXIMO ativo]
+    
+    NextBtn2 --> Step3[📍 STEP 3: Dados]
+    Step3 --> Form[📋 Formulário]
+    
+    Form --> FieldName[👤 Nome]
+    FieldName --> ValidName{Válido?}
+    ValidName -->|Não| ErrName[❌ Border vermelho]
+    ErrName --> FieldName
+    ValidName -->|Sim| OkName[✅ Border verde]
+    
+    OkName --> FieldPhone[📞 Telefone<br/>Máscara automática]
+    FieldPhone --> ValidPhone{Válido?}
+    ValidPhone -->|Não| ErrPhone[❌ Incompleto]
+    ErrPhone --> FieldPhone
+    ValidPhone -->|Sim| OkPhone[✅ Ok]
+    
+    OkPhone --> FieldEmail[📧 Email]
+    FieldEmail --> ValidEmail{Válido?}
+    ValidEmail -->|Não| ErrEmail[❌ Formato inválido]
+    ErrEmail --> FieldEmail
+    ValidEmail -->|Sim| OkEmail[✅ Ok]
+    
+    OkEmail --> FieldObs[💭 Observações<br/>Opcional]
+    FieldObs --> AllOk{Tudo ok?}
+    AllOk -->|Não| FormDisabled[⚫ Botão disabled]
+    AllOk -->|Sim| FormEnabled[🟢 Botão CONFIRMAR ativo]
+    
+    FormEnabled --> ResumoCard[📊 Card Resumo<br/>Tipo, Data, Horários, Valor]
+    ResumoCard --> Submit[👆 Clica CONFIRMAR]
+    
+    Submit --> LoadingSubmit[⏳ Processando...]
+    LoadingSubmit --> APIPost[🔌 POST /api/bookings]
+    APIPost --> ServerCheck{Conflito?}
+    
+    ServerCheck -->|Sim| ModalError[🔴 Modal: Horário indisponível<br/>Sugestão de alternativas]
+    ModalError --> Step2
+    
+    ServerCheck -->|Não| CreateBooking[✅ Criar reserva<br/>DB + Calendar + Email]
+    CreateBooking --> Redirect[➡️ /confirmacao/ID]
+    
+    Redirect --> Step4[📍 STEP 4: Confirmação]
+    Step4 --> SuccessHero[🎉 RESERVA CONFIRMADA!]
+    
+    SuccessHero --> DetailsCard[📋 Card Detalhes<br/>Nº UNQ-12345<br/>Tipo, Data, Horários<br/>Nome, Tel, Email, Valor]
+    
+    DetailsCard --> Actions[🎯 Ações]
+    Actions --> CalBtns[📅 Add to Calendar<br/>Google/Apple/Outlook]
+    Actions --> CancelLink[🔗 Link cancelar]
+    Actions --> Share[📤 Compartilhar]
+    Actions --> BackHome[🏠 Voltar home]
+    
+    CancelLink --> CancelPage[❌ PÁGINA CANCELAMENTO]
+    CancelPage --> VerifyToken{Token válido?}
+    
+    VerifyToken -->|Não| Error404[🔴 404: Link inválido]
+    VerifyToken -->|Sim| LoadBooking[📦 Carrega reserva]
+    
+    LoadBooking --> CancelCard[📋 Card Cancelamento<br/>Detalhes da reserva<br/>⚠️ Ação irreversível]
+    
+    CancelCard --> TimeCheck{Mais de 2h?}
+    TimeCheck -->|Não| Blocked[🔴 Cancelamento negado<br/>Contate-nos]
+    TimeCheck -->|Sim| ReasonField[📝 Campo motivo opcional]
+    
+    ReasonField --> CancelBtn[🔴 Botão CONFIRMAR CANCEL]
+    CancelBtn --> ConfirmDialog[⚠️ Dialog: TEM CERTEZA?<br/>Voltar / Sim, cancelar]
+    
+    ConfirmDialog --> ProcessCancel[⚙️ Processar<br/>Delete Calendar<br/>Update DB<br/>Cancel Follow-up<br/>Send Email]
+    
+    ProcessCancel --> CancelSuccess[✅ CANCELAMENTO CONFIRMADO<br/>Email enviado]
+    
+    CreateBooking --> Email1[📧 Email Confirmação<br/>Detalhes + Links]
+    Email1 --> Wait24h[⏰ Aguardar 24h]
+    
+    Wait24h --> CronJob[⚙️ Cron Job]
+    CronJob --> EmailFeedback[📧 Email Avaliação<br/>Como foi?]
+    
+    EmailFeedback --> ClickFeedback[👆 Clica link]
+    ClickFeedback --> FeedbackPage[⭐ PÁGINA AVALIAÇÃO]
+    
+    FeedbackPage --> Rating[⭐ Seletor estrelas]
+    Rating --> Comments[💭 Comentários]
+    Comments --> Recommend[👍 Recomendaria?<br/>Sim/Não]
+    Recommend --> Suggestions[💡 Sugestões]
+    
+    Suggestions --> SubmitFeedback[👆 Enviar avaliação]
+    SubmitFeedback --> SaveDB[💾 Salvar no DB]
+    SaveDB --> ThankYou[🙏 OBRIGADO!<br/>Volte sempre]
+    
+    ThankYou --> End([🏁 FIM])
+    CancelSuccess --> End
+    BackHome --> HomePage
+    
+    style Start fill:#667eea,stroke:#5568d3,stroke-width:4px,color:#fff
+    style End fill:#667eea,stroke:#5568d3,stroke-width:4px,color:#fff
+    style Step1 fill:#764ba2,stroke:#5a3680,stroke-width:3px,color:#fff
+    style Step2 fill:#764ba2,stroke:#5a3680,stroke-width:3px,color:#fff
+    style Step3 fill:#764ba2,stroke:#5a3680,stroke-width:3px,color:#fff
+    style Step4 fill:#27ae60,stroke:#1e8449,stroke-width:3px,color:#fff
