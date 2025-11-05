@@ -19,11 +19,10 @@ export default function Hero() {
         <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto">
           Agendamento rápido e fácil. Confirmação instantânea. Sua experiência perfeita começa aqui.
         </p>
-        <Link href="/agendar">
+        <Link href="/agendar" data-testid="button-hero-book">
           <Button 
             size="lg" 
             className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white font-semibold uppercase tracking-wider text-lg px-12 py-6 h-auto"
-            data-testid="button-hero-book"
           >
             Agendar Agora
           </Button>

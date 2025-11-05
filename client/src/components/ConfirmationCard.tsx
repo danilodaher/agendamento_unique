@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle2, Calendar, Clock, User, Mail, Phone, DollarSign } from "lucide-react";
-import { SiGooglecalendar, SiApple, SiMicrosoft } from "react-icons/si";
+import { CheckCircle2, Calendar, Clock, User, Mail, Phone, DollarSign, CalendarDays } from "lucide-react";
+import { SiGooglecalendar, SiApple } from "react-icons/si";
 import successImage from "@assets/generated_images/Success_confirmation_illustration_83a1c1d8.png";
 
 interface ConfirmationCardProps {
@@ -133,7 +133,7 @@ export default function ConfirmationCard({
                 Apple
               </Button>
               <Button variant="outline" className="gap-2" data-testid="button-outlook-calendar">
-                <SiMicrosoft className="w-4 h-4" />
+                <CalendarDays className="w-4 h-4" />
                 Outlook
               </Button>
             </div>
