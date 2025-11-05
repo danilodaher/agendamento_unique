@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/Navbar";
 import StepIndicator from "@/components/StepIndicator";
 import ServiceCard from "@/components/ServiceCard";
@@ -10,25 +12,18 @@ import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogFooter,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar as CalendarIcon, Users, Gift, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-//todo: remove mock functionality
-const MOCK_TIME_SLOTS = [
-  { time: '08:00 - 09:00', available: true },
-  { time: '09:00 - 10:00', available: false },
-  { time: '10:00 - 11:00', available: true },
-  { time: '11:00 - 12:00', available: true },
-  { time: '13:00 - 14:00', available: true },
-  { time: '14:00 - 15:00', available: false },
-  { time: '15:00 - 16:00', available: true },
-  { time: '16:00 - 17:00', available: true },
-  { time: '17:00 - 18:00', available: true },
-  { time: '18:00 - 19:00', available: true },
-  { time: '19:00 - 20:00', available: false },
-  { time: '20:00 - 21:00', available: true },
-];
 
 const SERVICE_TYPES = [
   { 
@@ -68,15 +63,59 @@ export default function Booking() {
   const [serviceType, setServiceType] = useState<string>('');
   const [date, setDate] = useState<Date>();
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
-  const [isLoadingSlots, setIsLoadingSlots] = useState(false);
   
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [observations, setObservations] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const [showConflictDialog, setShowConflictDialog] = useState(false);
+  const [conflictData, setConflictData] = useState<any>(null);
   
   const selectedService = SERVICE_TYPES.find(s => s.id === serviceType);
+  
+  const { data: availabilityData, isLoading: isLoadingSlots, refetch: refetchAvailability } = useQuery({
+    queryKey: ['/api/availability', date?.toISOString().split('T')[0], serviceType],
+    queryFn: async () => {
+      const response = await fetch(`/api/availability?date=${date?.toISOString().split('T')[0]}&serviceType=${serviceType}`);
+      return await response.json();
+    },
+    enabled: false,
+  });
+  
+  const createBookingMutation = useMutation({
+    mutationFn: async (bookingData: any) => {
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bookingData),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw error;
+      }
+      
+      return await response.json();
+    },
+    onSuccess: (data: any) => {
+      setLocation(`/confirmacao/${data.bookingNumber}`);
+    },
+    onError: (error: any) => {
+      if (error.error === "Conflito de horário") {
+        setConflictData(error);
+        setShowConflictDialog(true);
+      } else {
+        toast({
+          title: "Erro ao criar reserva",
+          description: error.message || "Tente novamente mais tarde",
+          variant: "destructive",
+        });
+      }
+    },
+  });
+  
+  const timeSlots = (availabilityData as any)?.slots || [];
   
   const formatPhone = (value: string) => {
     const numbers = value.replace(/\D/g, '');
@@ -119,15 +158,7 @@ export default function Booking() {
     console.log('Slot toggled:', time);
   };
   
-  const loadTimeSlots = () => {
-    setIsLoadingSlots(true);
-    setTimeout(() => {
-      setIsLoadingSlots(false);
-      console.log('Time slots loaded');
-    }, 800);
-  };
-  
-  const goToStep2 = () => {
+  const goToStep2 = async () => {
     if (!serviceType || !date) {
       toast({
         title: "Campos obrigatórios",
@@ -137,7 +168,7 @@ export default function Booking() {
       return;
     }
     setCurrentStep(2);
-    loadTimeSlots();
+    await refetchAvailability();
   };
   
   const goToStep3 = () => {
@@ -172,13 +203,19 @@ export default function Booking() {
       return;
     }
     
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      const bookingId = `UNQ-${Math.floor(10000 + Math.random() * 90000)}`;
-      console.log('Booking created:', bookingId);
-      setLocation(`/confirmacao/${bookingId}`);
-    }, 1500);
+    if (!date || !serviceType) return;
+    
+    createBookingMutation.mutate({
+      serviceType: selectedService?.title || serviceType,
+      date: date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }),
+      timeSlots: selectedSlots,
+      customerName: name,
+      customerEmail: email,
+      customerPhone: phone,
+      observations: observations || undefined,
+      totalAmount: selectedSlots.length * 50 * 100,
+      cancelled: false,
+    });
   };
   
   return (
@@ -255,7 +292,7 @@ export default function Booking() {
                     </div>
                   ) : (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                      {MOCK_TIME_SLOTS.map(slot => (
+                      {timeSlots.map((slot: any) => (
                         <TimeSlotCard
                           key={slot.time}
                           time={slot.time}
@@ -363,11 +400,11 @@ export default function Booking() {
                     </Button>
                     <Button 
                       onClick={handleSubmit}
-                      disabled={!validateForm() || isSubmitting}
+                      disabled={!validateForm() || createBookingMutation.isPending}
                       className="flex-1 bg-gradient-to-r from-[#667eea] to-[#764ba2]"
                       data-testid="button-confirm"
                     >
-                      {isSubmitting ? (
+                      {createBookingMutation.isPending ? (
                         <>
                           <Loader2 className="w-4 h-4 animate-spin mr-2" />
                           Processando...
@@ -392,6 +429,36 @@ export default function Booking() {
           </div>
         </div>
       </div>
+      
+      <AlertDialog open={showConflictDialog} onOpenChange={setShowConflictDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Horário Indisponível</AlertDialogTitle>
+            <AlertDialogDescription>
+              {conflictData?.message}
+              {conflictData?.availableSlots && conflictData.availableSlots.length > 0 && (
+                <>
+                  <br /><br />
+                  <strong>Horários alternativos disponíveis:</strong>
+                  <ul className="mt-2 space-y-1">
+                    {conflictData.availableSlots.map((slot: string) => (
+                      <li key={slot} className="text-sm">• {slot}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => {
+              setShowConflictDialog(false);
+              setCurrentStep(2);
+            }}>
+              Escolher Outros Horários
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

@@ -28,6 +28,54 @@ export default function ConfirmationCard({
   total,
   cancelToken
 }: ConfirmationCardProps) {
+  const generateICalFile = () => {
+    const startTime = timeSlots[0].split(' - ')[0];
+    const endTime = timeSlots[timeSlots.length - 1].split(' - ')[1];
+    
+    const eventDate = new Date(date);
+    const [startHour, startMin] = startTime.split(':');
+    const [endHour, endMin] = endTime.split(':');
+    
+    const startDateTime = new Date(eventDate);
+    startDateTime.setHours(parseInt(startHour), parseInt(startMin), 0);
+    
+    const endDateTime = new Date(eventDate);
+    endDateTime.setHours(parseInt(endHour), parseInt(endMin), 0);
+    
+    const formatDate = (d: Date) => {
+      return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    };
+    
+    const ical = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Unique//Booking System//PT',
+      'BEGIN:VEVENT',
+      `UID:${bookingId}@unique.com.br`,
+      `DTSTAMP:${formatDate(new Date())}`,
+      `DTSTART:${formatDate(startDateTime)}`,
+      `DTEND:${formatDate(endDateTime)}`,
+      `SUMMARY:${serviceType} - Unique`,
+      `DESCRIPTION:Reserva ${bookingId}\\nContato: ${name}\\nTelefone: ${phone}`,
+      `LOCATION:Unique - Complexo Esportivo`,
+      'STATUS:CONFIRMED',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\n');
+    
+    return ical;
+  };
+  
+  const downloadICalFile = () => {
+    const icalContent = generateICalFile();
+    const blob = new Blob([icalContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `reserva-${bookingId}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <div className="max-w-4xl mx-auto px-6 py-12">
       <div className="text-center mb-8">
@@ -124,15 +172,30 @@ export default function ConfirmationCard({
           <div className="space-y-4">
             <h3 className="font-semibold">Adicionar ao Calendário</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <Button variant="outline" className="gap-2" data-testid="button-google-calendar">
+              <Button 
+                variant="outline" 
+                className="gap-2" 
+                onClick={downloadICalFile}
+                data-testid="button-google-calendar"
+              >
                 <SiGooglecalendar className="w-4 h-4" />
                 Google
               </Button>
-              <Button variant="outline" className="gap-2" data-testid="button-apple-calendar">
+              <Button 
+                variant="outline" 
+                className="gap-2" 
+                onClick={downloadICalFile}
+                data-testid="button-apple-calendar"
+              >
                 <SiApple className="w-4 h-4" />
                 Apple
               </Button>
-              <Button variant="outline" className="gap-2" data-testid="button-outlook-calendar">
+              <Button 
+                variant="outline" 
+                className="gap-2" 
+                onClick={downloadICalFile}
+                data-testid="button-outlook-calendar"
+              >
                 <CalendarDays className="w-4 h-4" />
                 Outlook
               </Button>
@@ -142,12 +205,18 @@ export default function ConfirmationCard({
           <Separator />
           
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button variant="destructive" className="flex-1" data-testid="button-cancel">
-              Cancelar Reserva
-            </Button>
-            <Button variant="default" className="flex-1 bg-gradient-to-r from-[#667eea] to-[#764ba2]" data-testid="button-home">
-              Voltar ao Início
-            </Button>
+            {cancelToken && (
+              <a href={`/cancelar/${cancelToken}`} className="flex-1">
+                <Button variant="destructive" className="w-full" data-testid="button-cancel">
+                  Cancelar Reserva
+                </Button>
+              </a>
+            )}
+            <a href="/" className="flex-1">
+              <Button variant="default" className="w-full bg-gradient-to-r from-[#667eea] to-[#764ba2]" data-testid="button-home">
+                Voltar ao Início
+              </Button>
+            </a>
           </div>
         </CardContent>
       </Card>
