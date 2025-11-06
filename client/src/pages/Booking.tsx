@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -83,6 +83,16 @@ export default function Booking() {
     enabled: false,
   });
   
+  // Limpar horários selecionados quando o tipo de serviço mudar
+  useEffect(() => {
+    setSelectedSlots([]);
+    // Se estiver no step 2, recarregar disponibilidade com novo tipo
+    if (currentStep === 2 && serviceType && date) {
+      refetchAvailability();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serviceType]);
+  
   const createBookingMutation = useMutation({
     mutationFn: async (bookingData: any) => {
       const response = await fetch('/api/bookings', {
@@ -130,6 +140,10 @@ export default function Booking() {
   };
   
   const handleServiceSelect = (id: string) => {
+    // Limpar horários selecionados ao mudar o tipo de serviço
+    if (serviceType !== id) {
+      setSelectedSlots([]);
+    }
     setServiceType(id);
     console.log('Service selected:', id);
   };
@@ -167,8 +181,11 @@ export default function Booking() {
       });
       return;
     }
+    // Limpar horários selecionados ao mudar de passo ou tipo de serviço
+    setSelectedSlots([]);
     setCurrentStep(2);
-    await refetchAvailability();
+    // Forçar recarregamento sem cache
+    await refetchAvailability({ cancelRefetch: true });
   };
   
   const goToStep3 = () => {
@@ -205,6 +222,13 @@ export default function Booking() {
     
     if (!date || !serviceType) return;
     
+    // Calcular valor baseado no tipo de serviço
+    const isQuadra = serviceType === 'quadra';
+    const pricePerSlot = isQuadra ? 100 : 500; // R$ 100 para quadra, R$ 500 para festa/evento
+    const totalAmount = isQuadra 
+      ? selectedSlots.length * pricePerSlot 
+      : pricePerSlot; // Festa/evento: valor fixo de R$ 500
+    
     createBookingMutation.mutate({
       serviceType: selectedService?.title || serviceType,
       date: date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }),
@@ -213,7 +237,7 @@ export default function Booking() {
       customerEmail: email,
       customerPhone: phone,
       observations: observations || undefined,
-      totalAmount: selectedSlots.length * 50 * 100,
+      totalAmount: totalAmount,
       cancelled: false,
     });
   };
@@ -423,7 +447,8 @@ export default function Booking() {
                 serviceType={selectedService?.title}
                 date={date}
                 timeSlots={selectedSlots}
-                pricePerSlot={50}
+                pricePerSlot={serviceType === 'quadra' ? 100 : 500}
+                isQuadra={serviceType === 'quadra'}
               />
             </div>
           </div>

@@ -7,10 +7,12 @@ interface BookingSummaryProps {
   date?: Date;
   timeSlots?: string[];
   pricePerSlot?: number;
+  isQuadra?: boolean;
 }
 
-export default function BookingSummary({ serviceType, date, timeSlots = [], pricePerSlot = 50 }: BookingSummaryProps) {
-  const total = timeSlots.length * pricePerSlot;
+export default function BookingSummary({ serviceType, date, timeSlots = [], pricePerSlot = 50, isQuadra = false }: BookingSummaryProps) {
+  // Quadra: R$ 100 por horário | Festa/Evento: R$ 500 fixo
+  const total = isQuadra ? timeSlots.length * pricePerSlot : pricePerSlot;
   
   return (
     <Card className="sticky top-24">
@@ -62,10 +64,17 @@ export default function BookingSummary({ serviceType, date, timeSlots = [], pric
           <>
             <Separator />
             <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">{timeSlots.length}x horários</span>
-                <span>R$ {(timeSlots.length * pricePerSlot).toFixed(2)}</span>
-              </div>
+              {isQuadra ? (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">{timeSlots.length}x horários</span>
+                  <span>R$ {(timeSlots.length * pricePerSlot).toFixed(2)}</span>
+                </div>
+              ) : (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Serviço</span>
+                  <span>R$ {pricePerSlot.toFixed(2)}</span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <DollarSign className="w-5 h-5 text-muted-foreground" />
