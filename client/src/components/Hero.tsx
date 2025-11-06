@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
-import heroImage from "@assets/generated_images/Sports_facility_hero_background_f365318a.png";
+import heroImage from "@assets/generated_images/quadra.jpeg";
 
 export default function Hero() {
   return (
