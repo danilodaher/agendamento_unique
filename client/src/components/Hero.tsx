@@ -14,7 +14,7 @@ export default function Hero() {
       
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 tracking-tight leading-tight">
-          Reserve Sua Quadra,<br />Evento ou Festa
+          Faça sua reserva
         </h1>
         <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto">
           Agendamento rápido e fácil. Confirmação instantânea. Sua experiência perfeita começa aqui.
