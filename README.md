@@ -1,24 +1,24 @@
-# Unique - Sistema de Reservas
+# Unique - Booking System
 
-Sistema web para agendamento de quadras esportivas, eventos e festas. Desenvolvido com React, TypeScript e Node.js.
+Web system for scheduling sports courts, events, and parties. Built with React, TypeScript, and Node.js.
 
-## Funcionalidades
+## Features
 
-### Reservas
-- Seleção de tipo de serviço (Quadra, Evento, Festa)
-- Escolha de data e horários disponíveis
-- Cálculo automático de valores
-- Formulário de dados do cliente
-- Confirmação e cancelamento de reservas
+### Bookings
+- Service type selection (Court, Event, Party)
+- Date and available time slot selection
+- Automatic price calculation
+- Customer information form
+- Booking confirmation and cancellation
 
-### Gestão
-- Banco de dados SQLite para persistência
-- Notificações por email para cliente e proprietário
-- Integração com Google Calendar
-- Bloqueio automático de horários ocupados
-- Gerenciamento de disponibilidade em tempo real
+### Management
+- SQLite database for data persistence
+- Email notifications for customers and owner
+- Google Calendar integration
+- Automatic blocking of occupied time slots
+- Real-time availability management
 
-## Tecnologias
+## Technologies
 
 **Frontend**
 - React 18
@@ -37,7 +37,7 @@ Sistema web para agendamento de quadras esportivas, eventos e festas. Desenvolvi
 - Resend API
 - Google Calendar API
 
-## Instalação
+## Installation
 
 ```bash
 npm install
@@ -45,18 +45,20 @@ npm run db:push
 npm run dev
 ```
 
-## Configuração
+## Configuration
 
-Crie um arquivo `.env` na raiz do projeto:
+Create a `.env` file in the root directory:
 
 ```env
-RESEND_API_KEY=sua_chave_resend
-RESEND_FROM_EMAIL=contato@seudominio.com
+RESEND_API_KEY=your_resend_key
+RESEND_FROM_EMAIL=contact@yourdomain.com
 OWNER_EMAIL=uniquearaguari@gmail.com
 
-GOOGLE_CLIENT_EMAIL=seu-service-account@projeto.iam.gserviceaccount.com
+GOOGLE_CLIENT_EMAIL=your-service-account@project.iam.gserviceaccount.com
 GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 GOOGLE_CALENDAR_ID=primary
+
+VITE_GOOGLE_MAPS_API_KEY=your_google_maps_key
 
 BASE_URL=http://localhost:5001
 PORT=5001
@@ -64,21 +66,21 @@ PORT=5001
 
 ## Scripts
 
-- `npm run dev` - Servidor de desenvolvimento
-- `npm run build` - Build para produção
-- `npm start` - Servidor de produção
-- `npm run check` - Verificação TypeScript
-- `npm run db:push` - Migrações do banco
+- `npm run dev` - Development server
+- `npm run build` - Production build
+- `npm start` - Production server
+- `npm run check` - TypeScript check
+- `npm run db:push` - Database migrations
 
-## Estrutura
+## Structure
 
 ```
-├── client/          # Frontend React
-├── server/          # Backend Express
-├── shared/          # Schemas compartilhados
-└── database.sqlite  # Banco de dados
+├── client/          # React frontend
+├── server/          # Express backend
+├── shared/          # Shared schemas
+└── database.sqlite  # SQLite database
 ```
 
-## Licença
+## License
 
 MIT

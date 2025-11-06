@@ -91,9 +91,17 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold mb-1">Endereço</h3>
                     <p className="text-muted-foreground">
-                      Rua , 1234<br />
-                      Araguari, MG - CEP:
+                      R. Severino Alves Cardoso, 655 - Goiás<br />
+                      Araguari - MG, 38442-188
                     </p>
+                    <a
+                      href="https://www.google.com/maps/search/?api=1&query=R.+Severino+Alves+Cardoso,+655+-+Goi%C3%A1s,+Araguari+-+MG,+38442-188,+Brasil"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline text-sm mt-2 inline-block"
+                    >
+                      Ver no Google Maps →
+                    </a>
                   </div>
                 </CardContent>
               </Card>
@@ -103,9 +111,12 @@ export default function Contact() {
                   <Phone className="w-6 h-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Telefone</h3>
-                    <p className="text-muted-foreground">
-                      (34) 3456-7890<br />
-                    </p>
+                    <a
+                      href="tel:+5534993235000"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      (34) 99323-5000
+                    </a>
                   </div>
                 </CardContent>
               </Card>
@@ -115,10 +126,12 @@ export default function Contact() {
                   <Mail className="w-6 h-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-muted-foreground">
-                      contato@unique.com.br<br />
+                    <a
+                      href="mailto:uniquearaguari@gmail.com"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
                       uniquearaguari@gmail.com
-                    </p>
+                    </a>
                   </div>
                 </CardContent>
               </Card>
