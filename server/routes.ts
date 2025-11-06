@@ -3,6 +3,8 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertBookingSchema } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { sendConfirmationEmail, sendOwnerNotificationEmail } from "./email";
+import { createCalendarEvent, deleteCalendarEvents } from "./google-calendar";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/availability", async (req, res) => {
@@ -88,10 +90,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const bookingNumber = `UNQ-${Math.floor(10000 + Math.random() * 90000)}`;
       const cancelToken = randomUUID();
 
+      // Criar evento no Google Calendar primeiro
+      const tempBooking = {
+        ...validatedData,
+        bookingNumber,
+        cancelToken,
+        id: "",
+        createdAt: new Date(),
+        cancelled: false,
+        status: "confirmed" as const,
+        cancelledAt: null,
+        cancelReason: null,
+        googleCalendarEventId: null,
+      };
+
+      const calendarEventId = await createCalendarEvent(tempBooking as any);
+
       const booking = await storage.createBooking({
         ...validatedData,
         bookingNumber,
         cancelToken,
+        googleCalendarEventId: calendarEventId,
+      });
+
+      // Enviar emails (não bloqueia a resposta se falhar)
+      sendConfirmationEmail(booking).catch((error) => {
+        console.error(
+          "Erro ao enviar email para cliente (não crítico):",
+          error
+        );
+      });
+
+      sendOwnerNotificationEmail(booking).catch((error) => {
+        console.error("Erro ao enviar email para dono (não crítico):", error);
       });
 
       res.status(201).json(booking);
@@ -184,6 +215,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const cancelledBooking = await storage.cancelBooking(booking.id, reason);
+
+      // Deletar eventos do Google Calendar
+      if (cancelledBooking.googleCalendarEventId) {
+        await deleteCalendarEvents(
+          cancelledBooking.googleCalendarEventId
+        ).catch((error) => {
+          console.error(
+            "Erro ao deletar eventos do Google Calendar (não crítico):",
+            error
+          );
+        });
+      }
+
       res.json(cancelledBooking);
     } catch (error) {
       console.error("Error cancelling booking:", error);

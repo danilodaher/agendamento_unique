@@ -91,8 +91,8 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold mb-1">Endereço</h3>
                     <p className="text-muted-foreground">
-                      Rua dos Esportes, 1234<br />
-                      São Paulo, SP - 01234-567
+                      Rua , 1234<br />
+                      Araguari, MG - CEP:
                     </p>
                   </div>
                 </CardContent>
@@ -104,8 +104,7 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold mb-1">Telefone</h3>
                     <p className="text-muted-foreground">
-                      (11) 3456-7890<br />
-                      (11) 98765-4321
+                      (34) 3456-7890<br />
                     </p>
                   </div>
                 </CardContent>
@@ -118,7 +117,7 @@ export default function Contact() {
                     <h3 className="font-semibold mb-1">Email</h3>
                     <p className="text-muted-foreground">
                       contato@unique.com.br<br />
-                      suporte@unique.com.br
+                      uniquearaguari@gmail.com
                     </p>
                   </div>
                 </CardContent>

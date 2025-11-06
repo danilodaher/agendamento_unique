@@ -1,8 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle2, Calendar, Clock, User, Mail, Phone, DollarSign, CalendarDays } from "lucide-react";
-import { SiGooglecalendar, SiApple } from "react-icons/si";
+import { CheckCircle2, Calendar, Clock, User, Mail, Phone, DollarSign } from "lucide-react";
 import successImage from "@assets/generated_images/Success_confirmation_illustration_83a1c1d8.png";
 
 interface ConfirmationCardProps {
@@ -28,54 +27,21 @@ export default function ConfirmationCard({
   total,
   cancelToken
 }: ConfirmationCardProps) {
-  const generateICalFile = () => {
-    const startTime = timeSlots[0].split(' - ')[0];
-    const endTime = timeSlots[timeSlots.length - 1].split(' - ')[1];
-    
-    const eventDate = new Date(date);
-    const [startHour, startMin] = startTime.split(':');
-    const [endHour, endMin] = endTime.split(':');
-    
-    const startDateTime = new Date(eventDate);
-    startDateTime.setHours(parseInt(startHour), parseInt(startMin), 0);
-    
-    const endDateTime = new Date(eventDate);
-    endDateTime.setHours(parseInt(endHour), parseInt(endMin), 0);
-    
-    const formatDate = (d: Date) => {
-      return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    };
-    
-    const ical = [
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'PRODID:-//Unique//Booking System//PT',
-      'BEGIN:VEVENT',
-      `UID:${bookingId}@unique.com.br`,
-      `DTSTAMP:${formatDate(new Date())}`,
-      `DTSTART:${formatDate(startDateTime)}`,
-      `DTEND:${formatDate(endDateTime)}`,
-      `SUMMARY:${serviceType} - Unique`,
-      `DESCRIPTION:Reserva ${bookingId}\\nContato: ${name}\\nTelefone: ${phone}`,
-      `LOCATION:Unique - Complexo Esportivo`,
-      'STATUS:CONFIRMED',
-      'END:VEVENT',
-      'END:VCALENDAR'
-    ].join('\n');
-    
-    return ical;
+  // Formatar data para exibição (converter ISO para pt-BR se necessário)
+  const formatDateForDisplay = (dateStr: string) => {
+    // Se já estiver no formato pt-BR, retornar como está
+    if (dateStr.includes('de')) {
+      return dateStr;
+    }
+    // Se estiver no formato ISO (YYYY-MM-DD), converter para pt-BR
+    const dateObj = new Date(dateStr + 'T00:00:00');
+    return dateObj.toLocaleDateString('pt-BR', { 
+      day: '2-digit', 
+      month: 'long', 
+      year: 'numeric' 
+    });
   };
-  
-  const downloadICalFile = () => {
-    const icalContent = generateICalFile();
-    const blob = new Blob([icalContent], { type: 'text/calendar;charset=utf-8' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `reserva-${bookingId}.ics`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-12">
       <div className="text-center mb-8">
@@ -115,7 +81,7 @@ export default function ConfirmationCard({
                 <Calendar className="w-5 h-5 text-muted-foreground" />
                 <div>
                   <div className="text-sm text-muted-foreground">Data</div>
-                  <div className="font-semibold">{date}</div>
+                  <div className="font-semibold">{formatDateForDisplay(date)}</div>
                 </div>
               </div>
               
@@ -164,41 +130,6 @@ export default function ConfirmationCard({
                   <div className="text-2xl font-bold text-primary">R$ {total.toFixed(2)}</div>
                 </div>
               </div>
-            </div>
-          </div>
-          
-          <Separator />
-          
-          <div className="space-y-4">
-            <h3 className="font-semibold">Adicionar ao Calendário</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <Button 
-                variant="outline" 
-                className="gap-2" 
-                onClick={downloadICalFile}
-                data-testid="button-google-calendar"
-              >
-                <SiGooglecalendar className="w-4 h-4" />
-                Google
-              </Button>
-              <Button 
-                variant="outline" 
-                className="gap-2" 
-                onClick={downloadICalFile}
-                data-testid="button-apple-calendar"
-              >
-                <SiApple className="w-4 h-4" />
-                Apple
-              </Button>
-              <Button 
-                variant="outline" 
-                className="gap-2" 
-                onClick={downloadICalFile}
-                data-testid="button-outlook-calendar"
-              >
-                <CalendarDays className="w-4 h-4" />
-                Outlook
-              </Button>
             </div>
           </div>
           

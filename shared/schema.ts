@@ -1,14 +1,13 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, boolean, integer } from "drizzle-orm/pg-core";
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const bookings = pgTable("bookings", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+export const bookings = sqliteTable("bookings", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   bookingNumber: text("booking_number").notNull().unique(),
   serviceType: text("service_type").notNull(),
   date: text("date").notNull(),
-  timeSlots: text("time_slots").array().notNull(),
+  timeSlots: text("time_slots").notNull(), // JSON array stored as text
   customerName: text("customer_name").notNull(),
   customerEmail: text("customer_email").notNull(),
   customerPhone: text("customer_phone").notNull(),
@@ -16,13 +15,14 @@ export const bookings = pgTable("bookings", {
   totalAmount: integer("total_amount").notNull(),
   status: text("status").notNull().default("confirmed"),
   cancelToken: text("cancel_token").notNull(),
-  cancelled: boolean("cancelled").notNull().default(false),
-  cancelledAt: timestamp("cancelled_at"),
+  cancelled: integer("cancelled", { mode: "boolean" }).notNull().default(false),
+  cancelledAt: integer("cancelled_at", { mode: "timestamp" }),
   cancelReason: text("cancel_reason"),
-  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  googleCalendarEventId: text("google_calendar_event_id"), // IDs dos eventos separados por vírgula
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
-export const insertBookingSchema = createInsertSchema(bookings).omit({
+const baseInsertBookingSchema = createInsertSchema(bookings).omit({
   id: true,
   bookingNumber: true,
   cancelToken: true,
@@ -30,11 +30,20 @@ export const insertBookingSchema = createInsertSchema(bookings).omit({
   cancelledAt: true,
 });
 
-export type InsertBooking = z.infer<typeof insertBookingSchema>;
-export type Booking = typeof bookings.$inferSelect;
+// Override timeSlots to accept array instead of string
+export const insertBookingSchema = baseInsertBookingSchema.extend({
+  timeSlots: z.array(z.string()),
+});
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+export type InsertBooking = z.infer<typeof insertBookingSchema>;
+
+// Booking type with timeSlots as array (converted from JSON string in database)
+export type Booking = Omit<typeof bookings.$inferSelect, "timeSlots"> & {
+  timeSlots: string[];
+};
+
+export const users = sqliteTable("users", {
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
 });

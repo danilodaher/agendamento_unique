@@ -37,17 +37,7 @@ export default function About() {
                 </p>
               </CardContent>
             </Card>
-            
-            <Card>
-              <CardContent className="p-6 space-y-3">
-                <Shield className="w-10 h-10 text-primary" />
-                <h3 className="text-xl font-semibold">100% Seguro</h3>
-                <p className="text-muted-foreground">
-                  Seus dados protegidos com a melhor tecnologia de segurança.
-                </p>
-              </CardContent>
-            </Card>
-            
+                        
             <Card>
               <CardContent className="p-6 space-y-3">
                 <Sparkles className="w-10 h-10 text-primary" />
@@ -63,11 +53,6 @@ export default function About() {
             <CardContent className="p-8">
               <h2 className="text-2xl font-bold mb-4">Nossa História</h2>
               <div className="space-y-4 text-muted-foreground">
-                <p>
-                  A Unique nasceu com o objetivo de tornar a reserva de espaços esportivos 
-                  mais simples e acessível para todos. Combinamos tecnologia de ponta com 
-                  atendimento personalizado.
-                </p>
                 <p>
                   Oferecemos quadras de alta qualidade, espaços para eventos e festas, 
                   sempre com a melhor infraestrutura para garantir momentos inesquecíveis.

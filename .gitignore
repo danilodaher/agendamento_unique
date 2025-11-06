@@ -8,3 +8,6 @@ vite.config.ts.*
 .env
 .env.local
 *.log
+*.sqlite
+*.sqlite3
+database.sqlite

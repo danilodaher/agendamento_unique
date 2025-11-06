@@ -229,9 +229,12 @@ export default function Booking() {
       ? selectedSlots.length * pricePerSlot 
       : pricePerSlot; // Festa/evento: valor fixo de R$ 500
     
+    // Formatar data no formato ISO (YYYY-MM-DD) para consistência com o backend
+    const formattedDate = date.toISOString().split('T')[0];
+    
     createBookingMutation.mutate({
       serviceType: selectedService?.title || serviceType,
-      date: date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }),
+      date: formattedDate,
       timeSlots: selectedSlots,
       customerName: name,
       customerEmail: email,

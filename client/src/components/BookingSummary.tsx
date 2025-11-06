@@ -10,9 +10,11 @@ interface BookingSummaryProps {
   isQuadra?: boolean;
 }
 
-export default function BookingSummary({ serviceType, date, timeSlots = [], pricePerSlot = 50, isQuadra = false }: BookingSummaryProps) {
+export default function BookingSummary({ serviceType, date, timeSlots = [], pricePerSlot = 100, isQuadra = false }: BookingSummaryProps) {
   // Quadra: R$ 100 por horário | Festa/Evento: R$ 500 fixo
-  const total = isQuadra ? timeSlots.length * pricePerSlot : pricePerSlot;
+  // Se não for quadra e pricePerSlot não foi passado, usar 500 como padrão
+  const actualPricePerSlot = isQuadra ? pricePerSlot : (pricePerSlot === 100 ? 500 : pricePerSlot);
+  const total = isQuadra ? timeSlots.length * actualPricePerSlot : actualPricePerSlot;
   
   return (
     <Card className="sticky top-24">
@@ -67,12 +69,12 @@ export default function BookingSummary({ serviceType, date, timeSlots = [], pric
               {isQuadra ? (
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">{timeSlots.length}x horários</span>
-                  <span>R$ {(timeSlots.length * pricePerSlot).toFixed(2)}</span>
+                  <span>R$ {(timeSlots.length * actualPricePerSlot).toFixed(2)}</span>
                 </div>
               ) : (
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Serviço</span>
-                  <span>R$ {pricePerSlot.toFixed(2)}</span>
+                  <span>R$ {actualPricePerSlot.toFixed(2)}</span>
                 </div>
               )}
               <div className="flex items-center justify-between">

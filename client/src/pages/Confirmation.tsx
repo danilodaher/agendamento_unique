@@ -60,7 +60,7 @@ export default function Confirmation() {
           name={booking.customerName}
           email={booking.customerEmail}
           phone={booking.customerPhone}
-          total={booking.totalAmount / 100}
+          total={booking.totalAmount}
           cancelToken={booking.cancelToken}
         />
       </div>
