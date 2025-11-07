@@ -293,7 +293,7 @@ export default function Booking() {
                   <Button 
                     onClick={goToStep2}
                     disabled={!serviceType || !date}
-                    className="w-full bg-gradient-to-r from-[#667eea] to-[#764ba2]"
+                    className="w-full bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa]"
                     size="lg"
                     data-testid="button-next-step1"
                   >
@@ -343,7 +343,7 @@ export default function Booking() {
                     <Button 
                       onClick={goToStep3}
                       disabled={selectedSlots.length === 0}
-                      className="flex-1 bg-gradient-to-r from-[#667eea] to-[#764ba2]"
+                      className="flex-1 bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa]"
                       data-testid="button-next-step2"
                     >
                       Próximo
@@ -428,7 +428,7 @@ export default function Booking() {
                     <Button 
                       onClick={handleSubmit}
                       disabled={!validateForm() || createBookingMutation.isPending}
-                      className="flex-1 bg-gradient-to-r from-[#667eea] to-[#764ba2]"
+                      className="flex-1 bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa]"
                       data-testid="button-confirm"
                     >
                       {createBookingMutation.isPending ? (

@@ -140,7 +140,7 @@ export default function Cancel() {
               <p className="text-sm text-muted-foreground">
                 Um email de confirmação foi enviado para {booking?.customerEmail}.
               </p>
-              <Button onClick={() => setLocation('/')} className="w-full bg-gradient-to-r from-[#667eea] to-[#764ba2]">
+              <Button onClick={() => setLocation('/')} className="w-full bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa]">
                 Voltar ao Início
               </Button>
             </CardContent>

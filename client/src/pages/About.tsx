@@ -9,7 +9,7 @@ export default function About() {
       <div className="pt-24 pb-12 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa] bg-clip-text text-transparent">
               Sobre a Unique
             </h1>
             <p className="text-xl text-muted-foreground">

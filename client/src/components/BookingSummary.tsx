@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Calendar, Clock, DollarSign } from "lucide-react";
+import { formatCurrency } from "@/lib/utils";
 
 interface BookingSummaryProps {
   serviceType?: string;
@@ -69,12 +70,12 @@ export default function BookingSummary({ serviceType, date, timeSlots = [], pric
               {isQuadra ? (
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">{timeSlots.length}x horários</span>
-                  <span>R$ {(timeSlots.length * actualPricePerSlot).toFixed(2)}</span>
+                  <span>{formatCurrency(timeSlots.length * actualPricePerSlot)}</span>
                 </div>
               ) : (
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Serviço</span>
-                  <span>R$ {actualPricePerSlot.toFixed(2)}</span>
+                  <span>{formatCurrency(actualPricePerSlot)}</span>
                 </div>
               )}
               <div className="flex items-center justify-between">
@@ -83,7 +84,7 @@ export default function BookingSummary({ serviceType, date, timeSlots = [], pric
                   <span className="font-semibold">Total</span>
                 </div>
                 <span className="text-2xl font-bold text-primary">
-                  R$ {total.toFixed(2)}
+                  {formatCurrency(total)}
                 </span>
               </div>
             </div>

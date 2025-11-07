@@ -2,21 +2,23 @@ import { MapPin, Phone, Mail } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function LocationSection() {
-  const address = "R. Severino Alves Cardoso, 655 - Goiás, Araguari - MG, 38442-188, Brasil";
+  const address =
+    "R. Severino Alves Cardoso, 655 - Goiás, Araguari - MG, 38442-188, Brasil";
   const encodedAddress = encodeURIComponent(address);
-  const googleMapsUrl = `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyBFw0Qbyq9zTFTd-tUY6d_s6ng4bUUgEzg'}&q=${encodedAddress}`;
+  const googleMapsUrl = `https://www.google.com/maps/embed/v1/place?key=${
+    import.meta.env.VITE_GOOGLE_MAPS_API_KEY ||
+    "AIzaSyBFw0Qbyq9zTFTd-tUY6d_s6ng4bUUgEzg"
+  }&q=${encodedAddress}`;
   const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
 
   return (
-    <section className="py-16 bg-background">
+    <section id="location" className="py-16 bg-background">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa] bg-clip-text text-transparent">
             Nossa Localização
           </h2>
-          <p className="text-xl text-muted-foreground">
-            Venha nos visitar
-          </p>
+          <p className="text-xl text-muted-foreground">Venha nos visitar</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -97,4 +99,3 @@ export default function LocationSection() {
     </section>
   );
 }
-

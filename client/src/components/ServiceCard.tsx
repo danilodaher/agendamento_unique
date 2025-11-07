@@ -16,7 +16,7 @@ export default function ServiceCard({ icon: Icon, title, description, selected, 
       className={cn(
         "p-6 cursor-pointer transition-all hover:scale-105",
         selected 
-          ? "bg-gradient-to-br from-[#667eea] to-[#764ba2] text-white border-transparent" 
+          ? "bg-gradient-to-br from-[#1d4ed8] to-[#60a5fa] text-white border-transparent" 
           : "hover-elevate active-elevate-2"
       )}
       onClick={onClick}

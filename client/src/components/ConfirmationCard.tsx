@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CheckCircle2, Calendar, Clock, User, Mail, Phone, DollarSign } from "lucide-react";
 import successImage from "@assets/generated_images/Success_confirmation_illustration_83a1c1d8.png";
+import { formatCurrency } from "@/lib/utils";
 
 interface ConfirmationCardProps {
   bookingId: string;
@@ -49,7 +50,7 @@ export default function ConfirmationCard({
           <img src={successImage} alt="Sucesso" className="w-32 h-32 object-contain" />
         </div>
         <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa] bg-clip-text text-transparent">
           Reserva Confirmada!
         </h1>
         <p className="text-muted-foreground text-lg">
@@ -127,7 +128,7 @@ export default function ConfirmationCard({
                 <DollarSign className="w-5 h-5 text-muted-foreground" />
                 <div>
                   <div className="text-sm text-muted-foreground">Valor Total</div>
-                  <div className="text-2xl font-bold text-primary">R$ {total.toFixed(2)}</div>
+                  <div className="text-2xl font-bold text-primary">{formatCurrency(total)}</div>
                 </div>
               </div>
             </div>
@@ -144,7 +145,7 @@ export default function ConfirmationCard({
               </a>
             )}
             <a href="/" className="flex-1">
-              <Button variant="default" className="w-full bg-gradient-to-r from-[#667eea] to-[#764ba2]" data-testid="button-home">
+              <Button variant="default" className="w-full bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa]" data-testid="button-home">
                 Voltar ao Início
               </Button>
             </a>

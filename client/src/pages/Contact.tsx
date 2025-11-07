@@ -23,7 +23,7 @@ export default function Contact() {
       <div className="pt-24 pb-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa] bg-clip-text text-transparent">
               Entre em Contato
             </h1>
             <p className="text-xl text-muted-foreground">
@@ -74,7 +74,7 @@ export default function Contact() {
                     
                     <Button 
                       type="submit"
-                      className="w-full bg-gradient-to-r from-[#667eea] to-[#764ba2]"
+                      className="w-full bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa]"
                       data-testid="button-send-message"
                     >
                       Enviar Mensagem

@@ -32,15 +32,11 @@
 
   --sidebar-border: 240 6% 90%;
 
-  --sidebar-primary: 252 60% 65%;
-
+  --sidebar-primary: 221 83% 53%;
   --sidebar-primary-foreground: 0 0% 100%;
-
-  --sidebar-accent: 252 20% 88%;
-
-  --sidebar-accent-foreground: 252 60% 30%;
-
-  --sidebar-ring: 252 60% 65%;
+  --sidebar-accent: 221 100% 94%;
+  --sidebar-accent-foreground: 221 83% 35%;
+  --sidebar-ring: 221 83% 53%;
 
   --popover: 240 5% 94%;
 
@@ -48,8 +44,7 @@
 
   --popover-border: 240 6% 86%;
 
-  --primary: 252 60% 65%;
-
+  --primary: 221 83% 53%;
   --primary-foreground: 0 0% 100%;
 
   --secondary: 240 8% 90%;
@@ -60,17 +55,16 @@
 
   --muted-foreground: 240 6% 40%;
 
-  --accent: 252 18% 90%;
-
-  --accent-foreground: 252 60% 28%;
+  --accent: 221 100% 94%;
+  --accent-foreground: 221 83% 35%;
 
   --destructive: 0 72% 51%;
 
   --destructive-foreground: 0 0% 100%;
 
   --input: 240 8% 70%;
-  --ring: 252 60% 65%;
-  --chart-1: 252 60% 65%;
+  --ring: 221 83% 53%;
+  --chart-1: 221 83% 53%;
   --chart-2: 291 64% 42%;
   --chart-3: 173 58% 39%;
   --chart-4: 43 74% 49%;
@@ -150,15 +144,15 @@
 
   --sidebar-border: 240 6% 18%;
 
-  --sidebar-primary: 252 60% 65%;
+  --sidebar-primary: 221 83% 53%;
 
   --sidebar-primary-foreground: 0 0% 100%;
 
-  --sidebar-accent: 252 20% 22%;
+  --sidebar-accent: 221 60% 28%;
 
-  --sidebar-accent-foreground: 252 40% 85%;
+  --sidebar-accent-foreground: 221 100% 90%;
 
-  --sidebar-ring: 252 60% 65%;
+  --sidebar-ring: 221 83% 53%;
 
   --popover: 240 5% 16%;
 
@@ -166,7 +160,7 @@
 
   --popover-border: 240 6% 22%;
 
-  --primary: 252 60% 65%;
+  --primary: 221 83% 53%;
 
   --primary-foreground: 0 0% 100%;
 
@@ -178,17 +172,17 @@
 
   --muted-foreground: 240 5% 65%;
 
-  --accent: 252 18% 20%;
+  --accent: 221 55% 28%;
 
-  --accent-foreground: 252 40% 82%;
+  --accent-foreground: 221 100% 90%;
 
   --destructive: 0 72% 51%;
 
   --destructive-foreground: 0 0% 100%;
 
   --input: 240 8% 35%;
-  --ring: 252 60% 65%;
-  --chart-1: 252 60% 75%;
+  --ring: 221 83% 53%;
+  --chart-1: 221 83% 53%;
   --chart-2: 291 64% 65%;
   --chart-3: 173 58% 60%;
   --chart-4: 43 74% 65%;
