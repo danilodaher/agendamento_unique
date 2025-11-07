@@ -5,6 +5,8 @@ import { CheckCircle2, Calendar, Clock, User, Mail, Phone, DollarSign } from "lu
 import successImage from "@assets/generated_images/Success_confirmation_illustration_83a1c1d8.png";
 import { formatCurrency } from "@/lib/utils";
 
+const reviewLink = "https://www.google.com/maps/place/Unique+Araguari/@-18.6594626,-48.2072234,17z/data=!3m1!4b1!4m8!3m7!1s0x94aef476d72eab8b:0x8a37f1df59fe2f0d!8m2!3d-18.6594626!4d-48.2050347!9m1!1b1!16s%2Fg%2F11f7z6x7qv?entry=ttu";
+
 interface ConfirmationCardProps {
   bookingId: string;
   serviceType: string;
@@ -147,6 +149,19 @@ export default function ConfirmationCard({
             <a href="/" className="flex-1">
               <Button variant="default" className="w-full bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa]" data-testid="button-home">
                 Voltar ao Início
+              </Button>
+            </a>
+            <a
+              href={reviewLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1"
+            >
+              <Button
+                variant="outline"
+                className="w-full border-primary text-primary hover:bg-primary/5"
+              >
+                Avaliar no Google Maps
               </Button>
             </a>
           </div>

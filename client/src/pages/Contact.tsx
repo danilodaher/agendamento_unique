@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,21 +7,66 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Contact() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contact form submitted:', { name, email, message });
+
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      toast({
+        title: "Dados incompletos",
+        description: "Preencha nome, email e mensagem para enviar.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Falha ao enviar mensagem");
+      }
+
+      toast({
+        title: "Mensagem enviada",
+        description: "Entraremos em contato em breve.",
+      });
+
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (error) {
+      console.error("Erro ao enviar contato:", error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível enviar sua mensagem. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <div className="pt-24 pb-12 px-6">
+      <main className="flex-1 pt-24 pb-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa] bg-clip-text text-transparent">
@@ -76,8 +122,9 @@ export default function Contact() {
                       type="submit"
                       className="w-full bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa]"
                       data-testid="button-send-message"
+                      disabled={isSubmitting}
                     >
-                      Enviar Mensagem
+                      {isSubmitting ? "Enviando..." : "Enviar Mensagem"}
                     </Button>
                   </form>
                 </CardContent>
@@ -151,7 +198,8 @@ export default function Contact() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { useRoute, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -80,11 +81,12 @@ export default function Cancel() {
   
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <div className="pt-24 flex items-center justify-center py-20">
+        <main className="flex-1 pt-24 flex items-center justify-center py-20">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
@@ -92,9 +94,9 @@ export default function Cancel() {
   if (error) {
     const errorData = error as any;
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <div className="max-w-2xl mx-auto px-6 pt-24 pb-12">
+        <main className="flex-1 max-w-2xl mx-auto px-6 pt-24 pb-12">
           <Card className="border-destructive">
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -116,16 +118,17 @@ export default function Cancel() {
               </Button>
             </CardContent>
           </Card>
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
   
   if (cancelled) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <div className="max-w-2xl mx-auto px-6 pt-24 pb-12">
+        <main className="flex-1 max-w-2xl mx-auto px-6 pt-24 pb-12">
           <Card>
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -145,15 +148,16 @@ export default function Cancel() {
               </Button>
             </CardContent>
           </Card>
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
   
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <div className="max-w-2xl mx-auto px-6 pt-24 pb-12">
+      <main className="flex-1 max-w-2xl mx-auto px-6 pt-24 pb-12">
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -217,8 +221,8 @@ export default function Cancel() {
             </div>
           </CardContent>
         </Card>
-      </div>
-      
+      </main>
+
       <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -247,6 +251,7 @@ export default function Cancel() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <Footer />
     </div>
   );
 }

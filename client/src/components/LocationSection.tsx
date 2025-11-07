@@ -1,5 +1,8 @@
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+
+const reviewLink =
+  "https://www.google.com/maps/place/Unique+Araguari/@-18.6594626,-48.2072234,17z/data=!3m1!4b1!4m8!3m7!1s0x94aef476d72eab8b:0x8a37f1df59fe2f0d!8m2!3d-18.6594626!4d-48.2050347!9m1!1b1!16s%2Fg%2F11f7z6x7qv?entry=ttu";
 
 export default function LocationSection() {
   const address =
@@ -21,7 +24,7 @@ export default function LocationSection() {
           <p className="text-xl text-muted-foreground">Venha nos visitar</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-[3fr,2fr] gap-8">
           <Card>
             <CardContent className="p-0">
               <div className="w-full h-[400px] rounded-lg overflow-hidden">
@@ -39,14 +42,16 @@ export default function LocationSection() {
             </CardContent>
           </Card>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-4">
                 <div className="flex items-start gap-4">
                   <MapPin className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">Endereço</h3>
-                    <p className="text-muted-foreground mb-4">{address}</p>
+                    <h3 className="text-base font-semibold mb-1">Endereço</h3>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      {address}
+                    </p>
                     <a
                       href={googleMapsLink}
                       target="_blank"
@@ -61,14 +66,14 @@ export default function LocationSection() {
             </Card>
 
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-4">
                 <div className="flex items-start gap-4">
                   <Phone className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">Telefone</h3>
+                    <h3 className="text-base font-semibold mb-1">Telefone</h3>
                     <a
                       href="tel:+5534999999999"
-                      className="text-muted-foreground hover:text-primary transition-colors"
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
                     >
                       (34)99323-5000
                     </a>
@@ -78,16 +83,37 @@ export default function LocationSection() {
             </Card>
 
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-4">
                 <div className="flex items-start gap-4">
                   <Mail className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">Email</h3>
+                    <h3 className="text-base font-semibold mb-1">Email</h3>
                     <a
                       href="mailto:uniquearaguari@gmail.com"
-                      className="text-muted-foreground hover:text-primary transition-colors"
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
                     >
                       uniquearaguari@gmail.com
+                    </a>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-start gap-4">
+                  <Star className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
+                  <div className="space-y-3">
+                    <h3 className="text-base font-semibold">
+                      Avalie sua experiência
+                    </h3>
+                    <a
+                      href={reviewLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa] px-6 py-2 text-sm font-semibold text-white hover:opacity-90 transition-colors"
+                    >
+                      Avaliar no Google Maps
                     </a>
                   </div>
                 </div>

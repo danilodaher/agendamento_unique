@@ -9,13 +9,31 @@ interface BookingSummaryProps {
   timeSlots?: string[];
   pricePerSlot?: number;
   isQuadra?: boolean;
+  extraHalfHour?: boolean;
+  halfHourPrice?: number;
 }
 
-export default function BookingSummary({ serviceType, date, timeSlots = [], pricePerSlot = 100, isQuadra = false }: BookingSummaryProps) {
-  // Quadra: R$ 100 por horário | Festa/Evento: R$ 500 fixo
+export default function BookingSummary({
+  serviceType,
+  date,
+  timeSlots = [],
+  pricePerSlot = 100,
+  isQuadra = false,
+  extraHalfHour = false,
+  halfHourPrice = 0,
+}: BookingSummaryProps) {
+  // Quadra: R$ 100 por horário | Festa/Event
   // Se não for quadra e pricePerSlot não foi passado, usar 500 como padrão
-  const actualPricePerSlot = isQuadra ? pricePerSlot : (pricePerSlot === 100 ? 500 : pricePerSlot);
-  const total = isQuadra ? timeSlots.length * actualPricePerSlot : actualPricePerSlot;
+  const actualPricePerSlot = isQuadra
+    ? pricePerSlot
+    : pricePerSlot === 100
+    ? 500
+    : pricePerSlot;
+  const extraCost =
+    isQuadra && extraHalfHour ? halfHourPrice || actualPricePerSlot / 2 : 0;
+  const total = isQuadra
+    ? timeSlots.length * actualPricePerSlot + extraCost
+    : actualPricePerSlot;
   
   return (
     <Card className="sticky top-24">
@@ -68,10 +86,24 @@ export default function BookingSummary({ serviceType, date, timeSlots = [], pric
             <Separator />
             <div className="space-y-2">
               {isQuadra ? (
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">{timeSlots.length}x horários</span>
-                  <span>{formatCurrency(timeSlots.length * actualPricePerSlot)}</span>
-                </div>
+                <>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">
+                      {timeSlots.length}x horários
+                    </span>
+                    <span>
+                      {formatCurrency(timeSlots.length * actualPricePerSlot)}
+                    </span>
+                  </div>
+                  {extraHalfHour && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">
+                        30 minutos extras
+                      </span>
+                      <span>{formatCurrency(extraCost)}</span>
+                    </div>
+                  )}
+                </>
               ) : (
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Serviço</span>

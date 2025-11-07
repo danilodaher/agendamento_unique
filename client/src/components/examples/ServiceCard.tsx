@@ -17,7 +17,7 @@ export default function ServiceCardExample() {
       <ServiceCard
         icon={Users}
         title="Evento"
-        description="Organize seu evento esportivo"
+        description="Organize seu evento"
         selected={selected === 'evento'}
         onClick={() => setSelected('evento')}
       />

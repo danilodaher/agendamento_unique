@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertBookingSchema } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { sendConfirmationEmail, sendOwnerNotificationEmail } from "./email";
+import { sendContactEmail } from "./contact";
 import { createCalendarEvent, deleteCalendarEvents } from "./google-calendar";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -50,10 +51,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Mapear disponibilidade
-      const availability = allSlots.map((slot) => ({
+      let availability = allSlots.map((slot) => ({
         time: slot,
         available: !occupiedSlotsSet.has(slot),
       }));
+
+      const timeZone = "America/Sao_Paulo";
+      const nowInSaoPaulo = new Date(
+        new Date().toLocaleString("en-US", { timeZone })
+      );
+      const todayInSaoPaulo = new Intl.DateTimeFormat("en-CA", {
+        timeZone,
+      }).format(nowInSaoPaulo);
+
+      if (date === todayInSaoPaulo) {
+        const thresholdMinutes =
+          nowInSaoPaulo.getHours() * 60 + nowInSaoPaulo.getMinutes() + 120;
+
+        console.log("[availability]", {
+          requestedDate: date,
+          nowInSaoPaulo: nowInSaoPaulo.toLocaleString("pt-BR", {
+            timeZone,
+          }),
+          thresholdMinutes,
+        });
+
+        availability = availability.map((slot) => {
+          const [hourStr, minuteStr] = slot.time.split(":");
+          const slotMinutes =
+            parseInt(hourStr, 10) * 60 + (parseInt(minuteStr, 10) || 0);
+
+          if (slotMinutes < thresholdMinutes) {
+            return { ...slot, available: false };
+          }
+          return slot;
+        });
+      }
 
       res.json({ slots: availability });
     } catch (error) {
@@ -134,6 +167,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
           .json({ error: "Invalid booking data", details: error });
       }
       res.status(500).json({ error: "Failed to create booking" });
+    }
+  });
+
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const { name, email, message } = req.body ?? {};
+
+      if (!name || !email || !message) {
+        return res.status(400).json({
+          error: "Dados inválidos",
+          message: "Preencha nome, email e mensagem",
+        });
+      }
+
+      await sendContactEmail({ name, email, message });
+
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error("Erro ao enviar contato:", error);
+      res.status(500).json({ error: "Falha ao enviar mensagem" });
     }
   });
 

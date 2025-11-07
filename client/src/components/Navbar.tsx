@@ -22,7 +22,7 @@ export default function Navbar() {
           )}
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="flex items-center gap-6 text-sm sm:text-base">
           <Link href="/sobre" data-testid="link-about">
             <span className="text-white hover:text-white/80 transition-colors cursor-pointer">
               Sobre

@@ -1,6 +1,7 @@
 import { useRoute, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import ConfirmationCard from "@/components/ConfirmationCard";
 import { Loader2 } from "lucide-react";
 
@@ -27,31 +28,33 @@ export default function Confirmation() {
   
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <div className="pt-24 flex items-center justify-center py-20">
+        <main className="flex-1 pt-24 flex items-center justify-center py-20">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
   
   if (!booking) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <div className="pt-24 text-center py-20">
+        <main className="flex-1 pt-24 text-center py-20">
           <h1 className="text-2xl font-bold mb-4">Reserva não encontrada</h1>
           <p className="text-muted-foreground">Verifique o número da reserva e tente novamente.</p>
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
   
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <div className="pt-24">
+      <main className="flex-1 pt-24">
         <ConfirmationCard
           bookingId={booking.bookingNumber}
           serviceType={booking.serviceType}
@@ -63,7 +66,8 @@ export default function Confirmation() {
           total={booking.totalAmount}
           cancelToken={booking.cancelToken}
         />
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 }
