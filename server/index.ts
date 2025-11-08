@@ -1,7 +1,9 @@
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
+import swaggerUi from "swagger-ui-express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { openApiDocument } from "./openapi";
 
 // Set NODE_ENV if not already set (for local development)
 if (!process.env.NODE_ENV) {
@@ -21,6 +23,16 @@ app.use(express.json({
   }
 }));
 app.use(express.urlencoded({ extended: false }));
+
+app.get("/api/docs.json", (_req, res) => {
+  res.json(openApiDocument);
+});
+
+app.use(
+  "/api/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(openApiDocument, { explorer: true })
+);
 
 app.use((req, res, next) => {
   const start = Date.now();
