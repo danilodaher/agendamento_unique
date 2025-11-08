@@ -2,10 +2,9 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CheckCircle2, Calendar, Clock, User, Mail, Phone, DollarSign } from "lucide-react";
-import successImage from "@assets/generated_images/Success_confirmation_illustration_83a1c1d8.png";
 import { formatCurrency } from "@/lib/utils";
 
-const reviewLink = "https://www.google.com/maps/place/Unique+Araguari/@-18.6594626,-48.2072234,17z/data=!3m1!4b1!4m8!3m7!1s0x94aef476d72eab8b:0x8a37f1df59fe2f0d!8m2!3d-18.6594626!4d-48.2050347!9m1!1b1!16s%2Fg%2F11f7z6x7qv?entry=ttu";
+const reviewLink = "https://www.google.com/maps?cid=7356178019469812785#lrd=cid:7356178019469812785,1,,";
 
 interface ConfirmationCardProps {
   bookingId: string;
@@ -49,7 +48,6 @@ export default function ConfirmationCard({
     <div className="max-w-4xl mx-auto px-6 py-12">
       <div className="text-center mb-8">
         <div className="flex justify-center mb-4">
-          <img src={successImage} alt="Sucesso" className="w-32 h-32 object-contain" />
         </div>
         <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
         <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa] bg-clip-text text-transparent">

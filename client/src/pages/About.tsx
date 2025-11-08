@@ -2,8 +2,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Clock, Shield, Sparkles } from "lucide-react";
-import quadraNoiteImage from "@assets/generated_images/quadra-noite.jpeg";
-import espacoTudoVideo from "@assets/generated_images/espaco-tudo.mp4";
+import quadraNoiteImage from "@assets/generated_images/quadranoite.jpeg";
+import espacoTudoVideo from "@assets/generated_images/espacotudo.mp4";
 
 export default function About() {
   return (

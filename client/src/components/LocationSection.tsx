@@ -2,8 +2,7 @@ import { MapPin, Phone, Mail, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 const reviewLink =
-  "https://www.google.com/maps/place/Unique+Araguari/@-18.6594626,-48.2072234,17z/data=!3m1!4b1!4m8!3m7!1s0x94aef476d72eab8b:0x8a37f1df59fe2f0d!8m2!3d-18.6594626!4d-48.2050347!9m1!1b1!16s%2Fg%2F11f7z6x7qv?entry=ttu";
-
+  "https://www.google.com/maps?cid=7356178019469812785#lrd=cid:7356178019469812785,1,,";
 export default function LocationSection() {
   const address =
     "R. Severino Alves Cardoso, 655 - Goiás, Araguari - MG, 38442-188, Brasil";
@@ -72,7 +71,7 @@ export default function LocationSection() {
                   <div>
                     <h3 className="text-base font-semibold mb-1">Telefone</h3>
                     <a
-                      href="tel:+5534999999999"
+                      href="tel:+5534993235000"
                       className="text-sm text-muted-foreground hover:text-primary transition-colors"
                     >
                       (34)99323-5000

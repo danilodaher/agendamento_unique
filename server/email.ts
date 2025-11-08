@@ -23,14 +23,14 @@ const createConfirmationEmailTemplate = (booking: Booking) => {
           <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .header { background: linear-gradient(135deg, #1d4ed8 0%, #60a5fa 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
             .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
             .booking-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
             .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
             .detail-label { font-weight: bold; color: #666; }
             .detail-value { color: #333; }
-            .booking-number { font-size: 24px; font-weight: bold; color: #667eea; margin: 20px 0; }
-            .button { display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+            .booking-number { font-size: 24px; font-weight: bold; color: #1d4ed8; margin: 20px 0; }
+            .button { display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #1d4ed8 0%, #60a5fa 100%); color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
             .footer { text-align: center; margin-top: 30px; color: #666; font-size: 12px; }
           </style>
         </head>
@@ -181,14 +181,14 @@ const createOwnerEmailTemplate = (booking: Booking) => {
           <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: #2563eb; color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .header { background: linear-gradient(135deg, #1d4ed8 0%, #60a5fa 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
             .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
             .booking-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
             .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
             .detail-label { font-weight: bold; color: #666; }
             .detail-value { color: #333; }
-            .booking-number { font-size: 24px; font-weight: bold; color: #2563eb; margin: 20px 0; }
-            .info-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0; }
+            .booking-number { font-size: 24px; font-weight: bold; color: #1d4ed8; margin: 20px 0; }
+            .info-box { background: #e0f2fe; border-left: 4px solid #1d4ed8; padding: 15px; margin: 20px 0; }
             .footer { text-align: center; margin-top: 30px; color: #666; font-size: 12px; }
           </style>
         </head>
@@ -238,7 +238,7 @@ const createOwnerEmailTemplate = (booking: Booking) => {
               </div>
               
               <div class="booking-details">
-                <h3 style="margin-top: 0; color: #2563eb;">Dados do Cliente</h3>
+                <h3 style="margin-top: 0; color: #1d4ed8;">Dados do Cliente</h3>
                 <div class="detail-row">
                   <span class="detail-label">Nome:</span>
                   <span class="detail-value">${booking.customerName}</span>
