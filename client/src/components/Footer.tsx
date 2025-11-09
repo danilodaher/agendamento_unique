@@ -7,6 +7,9 @@ const phoneNumber = "(34) 99323-5000";
 const phoneLink = "https://wa.me/5534993235000";
 const addressText =
   "R. Severino Alves Cardoso, 655 - Goiás, Araguari - MG, 38442-188";
+const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  addressText
+)}`;
 
 export default function Footer() {
   return (
@@ -42,10 +45,15 @@ export default function Footer() {
               <Phone className="h-4 w-4" />
               {phoneNumber}
             </a>
-            <span className="flex items-center gap-2">
+            <a
+              href={googleMapsLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-primary transition-colors"
+            >
               <MapPin className="h-4 w-4" />
               {addressText}
-            </span>
+            </a>
           </div>
         </div>
 
@@ -56,4 +64,3 @@ export default function Footer() {
     </footer>
   );
 }
-
