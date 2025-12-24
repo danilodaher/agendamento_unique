@@ -1,6 +1,6 @@
 import type { OpenAPIV3_1 } from "openapi-types";
 
-const localServerUrl = "http://localhost:5001";
+const localServerUrl = "http://localhost:8080";
 const productionServerUrl = "https://agendamentounique.onrender.com";
 
 export const openApiDocument = {

@@ -10,7 +10,7 @@ const resend = process.env.RESEND_API_KEY
 const createConfirmationEmailTemplate = (booking: Booking) => {
   const timeSlotsText = booking.timeSlots.join(", ");
   const cancelUrl = `${
-    process.env.BASE_URL || "http://localhost:5001"
+    process.env.BASE_URL || "http://localhost:8080"
   }/cancelar/${booking.cancelToken}`;
 
   return {
